@@ -1,0 +1,122 @@
+[gd_scene load_steps=15 format=3 uid="uid://oprstp65ne86"]
+
+[ext_resource type="Script" path="res://scripts/prop2.gd" id="1_6lvh8"]
+[ext_resource type="Texture2D" uid="uid://0q15yc7nbvvs" path="res://assets/dwarf_mage_vase.png" id="2_pabpd"]
+[ext_resource type="AudioStream" uid="uid://bdfwn1j16pie4" path="res://audio/ceramic_break.mp3" id="3_8kqr8"]
+[ext_resource type="Texture2D" uid="uid://cfkquhfmrxxx7" path="res://assets/heart.png" id="4_vw7yr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oalib"]
+size = Vector2(20, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uitw7"]
+atlas = ExtResource("2_pabpd")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p086u"]
+atlas = ExtResource("2_pabpd")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ikww7"]
+atlas = ExtResource("2_pabpd")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntelk"]
+atlas = ExtResource("2_pabpd")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0o173"]
+atlas = ExtResource("2_pabpd")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyj3i"]
+atlas = ExtResource("2_pabpd")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_udinp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uitw7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p086u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ikww7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ntelk")
+}],
+"loop": false,
+"name": &"breaking",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0o173")
+}],
+"loop": false,
+"name": &"broken",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iyj3i")
+}],
+"loop": false,
+"name": &"vase",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xmyy2"]
+size = Vector2(26, 30)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yindt"]
+radius = 11.0
+
+[node name="propC" type="StaticBody2D" groups=["props"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_6lvh8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -0.5)
+shape = SubResource("RectangleShape2D_oalib")
+
+[node name="anim" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_udinp")
+animation = &"vase"
+autoplay = "vase"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="soundFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_8kqr8")
+
+[node name="breakbox" type="Area2D" parent="."]
+
+[node name="breakbox" type="CollisionShape2D" parent="breakbox"]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_xmyy2")
+debug_color = Color(0.937173, 0.187199, 0.428165, 0.42)
+
+[node name="Heart" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="HeartSprite" type="Sprite2D" parent="Heart"]
+visible = false
+z_index = 2
+position = Vector2(1, 5)
+scale = Vector2(0.6875, 0.6875)
+texture = ExtResource("4_vw7yr")
+
+[node name="HeartCollision" type="CollisionShape2D" parent="Heart"]
+position = Vector2(1, 4)
+shape = SubResource("CircleShape2D_yindt")
+disabled = true
+debug_color = Color(0.995339, 0, 0.206971, 0.42)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="breakbox" to="." method="_on_breakbox_area_entered"]
+[connection signal="area_entered" from="Heart" to="." method="_on_heart_area_entered"]

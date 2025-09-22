@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://udl4is1q6cib"]
+
+[ext_resource type="Script" path="res://scripts/title screen.gd" id="1_7rkpo"]
+[ext_resource type="Texture2D" uid="uid://bag8ui2bn4dmx" path="res://assets/dwarf mage title scene11.png" id="2_phfsq"]
+[ext_resource type="Texture2D" uid="uid://crte78625f1jq" path="res://assets/DM logo.png" id="3_h4ujp"]
+[ext_resource type="Theme" uid="uid://dc78fld0qnwrt" path="res://themes/titlemenu.tres" id="4_0ij8i"]
+
+[node name="title screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7rkpo")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_phfsq")
+flip_h = true
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -493.0
+offset_top = 29.0
+offset_right = 599.0
+offset_bottom = 876.0
+grow_horizontal = 0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_h4ujp")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 25.0
+offset_top = -74.0
+offset_right = 121.0
+offset_bottom = 74.0
+grow_vertical = 2
+scale = Vector2(1.2, 1.2)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="new game" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_0ij8i")
+text = "New Game"
+
+[node name="load game" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_0ij8i")
+text = "Load Game"
+
+[node name="options" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_0ij8i")
+text = "Options"
+
+[node name="exit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_0ij8i")
+text = "Exit
+"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/new game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/load game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/exit" to="." method="_on_exit_pressed"]

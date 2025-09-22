@@ -1,0 +1,94 @@
+[gd_scene load_steps=11 format=3 uid="uid://dmghrclfg4351"]
+
+[ext_resource type="Script" path="res://scripts/Enemy.gd" id="1_6jstj"]
+[ext_resource type="Texture2D" uid="uid://dtulc6asg1yrp" path="res://assets/godot_template_player.png" id="2_t62sm"]
+[ext_resource type="AudioStream" uid="uid://bdewd6q4u4iys" path="res://audio/attack.wav" id="3_gtdcy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5phxh"]
+size = Vector2(24, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_50gde"]
+atlas = ExtResource("2_t62sm")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cq4tq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_50gde")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_4ufvu"]
+script/source = "extends Area2D
+
+
+
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_afvpo"]
+size = Vector2(30, 53)
+
+[sub_resource type="GDScript" id="GDScript_tsk8n"]
+script/source = "extends Area2D
+
+
+
+
+
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7nuli"]
+size = Vector2(44, 46)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_6jstj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5phxh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
+scale = Vector2(1, 2)
+sprite_frames = SubResource("SpriteFrames_cq4tq")
+
+[node name="enemyhurtbox" type="Area2D" parent="."]
+collision_layer = 8
+script = SubResource("GDScript_4ufvu")
+
+[node name="enemy hurtbox collision" type="CollisionShape2D" parent="enemyhurtbox"]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_afvpo")
+debug_color = Color(0.982201, 0, 0.36431, 0.42)
+
+[node name="enemyhitbox" type="Area2D" parent="."]
+collision_layer = 8
+script = SubResource("GDScript_tsk8n")
+
+[node name="enemy hitbox collission" type="CollisionShape2D" parent="enemyhitbox"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_7nuli")
+debug_color = Color(0.622455, 0.533341, 0, 0.42)
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(28, 0)
+collision_mask = 2
+collide_with_areas = true
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-28, 0)
+collision_mask = 2
+
+[node name="attack" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_gtdcy")
+
+[node name="attack timer" type="Timer" parent="attack"]
+wait_time = 0.1
+
+[connection signal="area_entered" from="enemyhitbox" to="." method="_on_enemyhitbox_area_entered"]
+[connection signal="timeout" from="attack/attack timer" to="." method="_on_attack_timer_timeout"]

@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdf74v0wbsngm"]
+
+[ext_resource type="Script" path="res://scripts/deathzone.gd" id="1_xmdv6"]
+[ext_resource type="AudioStream" uid="uid://baouev5hngdhp" path="res://audio/death.wav" id="2_qv0gl"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_4c1j5"]
+
+[node name="deathzone" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_xmdv6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("WorldBoundaryShape2D_4c1j5")
+
+[node name="death" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_qv0gl")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="death" to="." method="_on_death_finished"]
